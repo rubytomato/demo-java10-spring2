@@ -1,7 +1,7 @@
 package com.example.demo.entity;
 
-import lombok.Builder;
-import lombok.Data;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,14 +11,17 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+
+import lombok.Builder;
+import lombok.Data;
 
 @Entity
 @Table(name = "memo")
 @Data
 @Builder
 public class Memo implements Serializable {
+
+  private static final long serialVersionUID = -4050542590331251852L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,13 +40,7 @@ public class Memo implements Serializable {
   }
 
   public static Memo of(Long id, String title, String description) {
-    return Memo.builder()
-        .id(id)
-        .title(title)
-        .description(description)
-        .done(false)
-        .updated(LocalDateTime.now())
-        .build();
+    return Memo.builder().id(id).title(title).description(description).done(false).updated(LocalDateTime.now()).build();
   }
 
   @PrePersist

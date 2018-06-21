@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Memo;
-import com.example.demo.service.MemoService;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -15,12 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Optional;
+import com.example.demo.entity.Memo;
+import com.example.demo.service.MemoService;
 
 @RestController
 @RequestMapping(path = "memo")
-@Slf4j
 public class MemoController {
 
   private final MemoService memoService;
@@ -32,8 +31,7 @@ public class MemoController {
   @GetMapping(path = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public ResponseEntity<Memo> id(@PathVariable(value = "id") Long id) {
     Optional<Memo> memo = memoService.findById(id);
-    return memo.map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.notFound().build());
+    return memo.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   @GetMapping(path = "list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
