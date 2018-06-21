@@ -15,19 +15,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 public class MemoRepositoryTests {
 
-    @Autowired
-    private TestEntityManager testEntityManager;
-    @Autowired
-    private MemoRepository sut;
+  @Autowired
+  private TestEntityManager testEntityManager;
+  @Autowired
+  private MemoRepository sut;
 
-    @Test
-    @Sql(statements = "INSERT INTO memo (id, title, description, done, updated) VALUES (1, 'test title', 'test description', FALSE, CURRENT_TIMESTAMP)")
-    public void findById() {
-        var expected = testEntityManager.find(Memo.class, 1L);
-        var actual = sut.findById(1L).orElse(null);
+  @Test
+  @Sql(statements = "INSERT INTO memo (id, title, description, done, updated) VALUES (1, 'test title', 'test description', FALSE, CURRENT_TIMESTAMP)")
+  public void findById() {
+    var expected = testEntityManager.find(Memo.class, 1L);
+    var actual = sut.findById(1L).orElse(null);
 
-        assertThat(actual).as("actualは必ず検索できる").isNotNull();
-        assertThat(actual).isEqualTo(expected);
-    }
+    assertThat(actual).as("actualは必ず検索できる").isNotNull();
+    assertThat(actual).isEqualTo(expected);
+  }
 
 }

@@ -7,13 +7,13 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface MemoService {
-    Optional<Memo> findById(Long id);
+  Optional<Memo> findById(Long id);
 
-    Page<Memo> findAll(Pageable page);
+  Page<Memo> findAll(Pageable page);
 
-    void store(Memo memo);
+  void store(Memo memo);
 
-    void done(Long id);
+  void done(Long id);
 
-    void removeById(Long id);
+  void removeById(Long id);
 }

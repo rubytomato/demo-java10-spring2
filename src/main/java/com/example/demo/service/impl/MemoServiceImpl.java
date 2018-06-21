@@ -15,44 +15,44 @@ import java.util.Optional;
 @Slf4j
 public class MemoServiceImpl implements MemoService {
 
-    private final MemoRepository memoRepository;
+  private final MemoRepository memoRepository;
 
-    public MemoServiceImpl(MemoRepository memoRepository) {
-        this.memoRepository = memoRepository;
-    }
+  public MemoServiceImpl(MemoRepository memoRepository) {
+    this.memoRepository = memoRepository;
+  }
 
-    @Transactional(readOnly = true, timeout = 3)
-    @Override
-    public Optional<Memo> findById(Long id) {
-        return memoRepository.findById(id);
-    }
+  @Transactional(readOnly = true, timeout = 3)
+  @Override
+  public Optional<Memo> findById(Long id) {
+    return memoRepository.findById(id);
+  }
 
-    @Transactional(readOnly = true, timeout = 3)
-    @Override
-    public Page<Memo> findAll(Pageable page) {
-        return memoRepository.findAll(page);
-    }
+  @Transactional(readOnly = true, timeout = 3)
+  @Override
+  public Page<Memo> findAll(Pageable page) {
+    return memoRepository.findAll(page);
+  }
 
-    @Transactional(timeout = 10)
-    @Override
-    public void store(Memo memo) {
-        memoRepository.save(memo);
-    }
+  @Transactional(timeout = 10)
+  @Override
+  public void store(Memo memo) {
+    memoRepository.save(memo);
+  }
 
-    @Transactional(timeout = 10)
-    @Override
-    public void done(Long id) {
-        Optional<Memo> memo = memoRepository.findById(id);
-        memo.ifPresentOrElse(m -> m.setDone(true),
-                () -> {
-                    log.info("memo id:{} not found", id);
-                });
-    }
+  @Transactional(timeout = 10)
+  @Override
+  public void done(Long id) {
+    Optional<Memo> memo = memoRepository.findById(id);
+    memo.ifPresentOrElse(m -> m.setDone(true),
+        () -> {
+          log.info("memo id:{} not found", id);
+        });
+  }
 
-    @Transactional(timeout = 10)
-    @Override
-    public void removeById(Long id) {
-        memoRepository.deleteById(id);
-    }
+  @Transactional(timeout = 10)
+  @Override
+  public void removeById(Long id) {
+    memoRepository.deleteById(id);
+  }
 
 }

@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 public class IndexController {
 
-    @GetMapping
-    public String index(Model model) {
-        model.addAttribute("message", "hello world");
-        return "index";
-    }
+  @GetMapping
+  public String index(Model model) {
+    model.addAttribute("message", "hello world");
+    return "index";
+  }
 
 }

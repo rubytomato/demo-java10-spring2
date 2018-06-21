@@ -30,37 +30,37 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(MemoController.class)
 public class MemoControllerTests {
 
-    @Autowired
-    private MockMvc mvc;
-    @Autowired
-    private ObjectMapper objectMapper;
+  @Autowired
+  private MockMvc mvc;
+  @Autowired
+  private ObjectMapper objectMapper;
 
-    @MockBean
-    private MemoService memoService;
+  @MockBean
+  private MemoService memoService;
 
-    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(), StandardCharsets.UTF_8);
+  private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+      MediaType.APPLICATION_JSON.getSubtype(), StandardCharsets.UTF_8);
 
-    @Test
-    public void getMemo() throws Exception {
-        var expected = Memo.of(1L, "test title", "test description");
-        var expectedJson = objectMapper.writeValueAsString(expected);
-        Mockito.when(memoService.findById(anyLong())).thenReturn(Optional.ofNullable(expected));
+  @Test
+  public void getMemo() throws Exception {
+    var expected = Memo.of(1L, "test title", "test description");
+    var expectedJson = objectMapper.writeValueAsString(expected);
+    Mockito.when(memoService.findById(anyLong())).thenReturn(Optional.ofNullable(expected));
 
-        RequestBuilder builder = MockMvcRequestBuilders.get("/memo/{id}", 1L)
-                .accept(MediaType.APPLICATION_JSON_UTF8);
+    RequestBuilder builder = MockMvcRequestBuilders.get("/memo/{id}", 1L)
+        .accept(MediaType.APPLICATION_JSON_UTF8);
 
-        MvcResult result = mvc.perform(builder)
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$").isNotEmpty())
-                .andExpect(jsonPath("$.title").value(expected.getTitle()))
-                .andExpect(jsonPath("$.description").value(expected.getDescription()))
-                .andExpect(jsonPath("$.done").value(expected.getDone()))
-                .andDo(print())
-                .andReturn();
+    MvcResult result = mvc.perform(builder)
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(contentType))
+        .andExpect(jsonPath("$").isNotEmpty())
+        .andExpect(jsonPath("$.title").value(expected.getTitle()))
+        .andExpect(jsonPath("$.description").value(expected.getDescription()))
+        .andExpect(jsonPath("$.done").value(expected.getDone()))
+        .andDo(print())
+        .andReturn();
 
-        assertThat(result.getResponse().getContentAsString()).isEqualTo(expectedJson);
-    }
+    assertThat(result.getResponse().getContentAsString()).isEqualTo(expectedJson);
+  }
 
 }

@@ -18,26 +18,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class MemoServiceIntegrationTests {
 
-    @Autowired
-    private MemoService sut;
+  @Autowired
+  private MemoService sut;
 
-    @Transactional(readOnly = true)
-    @Test
-    public void findById() {
-        var actual = sut.findById(1L).orElse(null);
+  @Transactional(readOnly = true)
+  @Test
+  public void findById() {
+    var actual = sut.findById(1L).orElse(null);
 
-        assertThat(actual).isNotNull();
-        assertThat(actual.getId()).isEqualTo(1L);
-    }
+    assertThat(actual).isNotNull();
+    assertThat(actual.getId()).isEqualTo(1L);
+  }
 
-    @Transactional(readOnly = true)
-    @Test
-    public void findAll() {
-        Pageable page = PageRequest.of(0, 3);
-        Page<Memo> actual = sut.findAll(page);
+  @Transactional(readOnly = true)
+  @Test
+  public void findAll() {
+    Pageable page = PageRequest.of(0, 3);
+    Page<Memo> actual = sut.findAll(page);
 
-        assertThat(actual).isNotNull();
-        assertThat(actual.getContent()).hasSize(3);
-    }
+    assertThat(actual).isNotNull();
+    assertThat(actual.getContent()).hasSize(3);
+  }
 
 }
