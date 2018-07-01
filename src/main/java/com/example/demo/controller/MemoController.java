@@ -25,13 +25,15 @@ public class MemoController {
   private final MemoService memoService;
 
   public MemoController(MemoService service) {
-    this.memoService = service;
+    memoService = service;
   }
 
   @GetMapping(path = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public ResponseEntity<Memo> id(@PathVariable(value = "id") Long id) {
     Optional<Memo> memo = memoService.findById(id);
-    return memo.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    return memo.map(ResponseEntity::ok)
+               .orElseGet(() -> ResponseEntity.notFound()
+                                              .build());
   }
 
   @GetMapping(path = "list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
