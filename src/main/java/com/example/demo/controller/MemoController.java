@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,7 @@ import com.example.demo.service.MemoService;
 public class MemoController {
 
   private final MemoService memoService;
+  private final static String SUCCESS = "success";
 
   public MemoController(MemoService service) {
     memoService = service;
@@ -45,13 +47,19 @@ public class MemoController {
   @PostMapping(produces = MediaType.TEXT_PLAIN_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public String store(@RequestBody Memo memo) {
     memoService.store(memo);
-    return "success";
+    return SUCCESS;
+  }
+
+  @PatchMapping(produces = MediaType.TEXT_PLAIN_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public String update(@RequestBody Memo memo) {
+    memoService.update(memo);
+    return SUCCESS;
   }
 
   @DeleteMapping(path = "{id}", produces = MediaType.TEXT_PLAIN_VALUE)
   public String remove(@PathVariable(value = "id") Long id) {
     memoService.removeById(id);
-    return "success";
+    return SUCCESS;
   }
 
 }

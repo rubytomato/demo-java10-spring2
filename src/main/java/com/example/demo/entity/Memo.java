@@ -12,13 +12,17 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "memo")
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Memo implements Serializable {
 
   private static final long serialVersionUID = -4050542590331251852L;
@@ -40,7 +44,25 @@ public class Memo implements Serializable {
   }
 
   public static Memo of(Long id, String title, String description) {
-    return Memo.builder().id(id).title(title).description(description).done(false).updated(LocalDateTime.now()).build();
+    return Memo.builder()
+               .id(id)
+               .title(title)
+               .description(description)
+               .done(false)
+               .updated(LocalDateTime.now())
+               .build();
+  }
+
+  public void merge(Memo modifiedMemo) {
+    if (modifiedMemo.title != null && modifiedMemo.title.length() > 0) {
+      title = modifiedMemo.title;
+    }
+    if (modifiedMemo.description != null && modifiedMemo.description.length() > 0) {
+      description = modifiedMemo.description;
+    }
+    if (modifiedMemo.done != null) {
+      done = modifiedMemo.done;
+    }
   }
 
   @PrePersist

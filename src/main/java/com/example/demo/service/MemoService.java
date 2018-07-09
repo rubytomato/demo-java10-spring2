@@ -1,10 +1,11 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Memo;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
+import com.example.demo.entity.Memo;
 
 public interface MemoService {
   Optional<Memo> findById(Long id);
@@ -12,6 +13,8 @@ public interface MemoService {
   Page<Memo> findAll(Pageable page);
 
   void store(Memo memo);
+
+  void update(Memo memo);
 
   void done(Long id);
 

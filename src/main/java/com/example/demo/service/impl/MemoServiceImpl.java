@@ -1,15 +1,17 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.Memo;
-import com.example.demo.repository.MemoRepository;
-import com.example.demo.service.MemoService;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import com.example.demo.entity.Memo;
+import com.example.demo.repository.MemoRepository;
+import com.example.demo.service.MemoService;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
@@ -35,6 +37,13 @@ public class MemoServiceImpl implements MemoService {
 
   @Transactional(timeout = 10)
   @Override
+  public void update(Memo memo) {
+    memoRepository.findById(memo.getId())
+                  .ifPresentOrElse(m -> m.merge(memo), () -> log.info("memo id:{} not found", memo.getId()));
+  }
+
+  @Transactional(timeout = 10)
+  @Override
   public void store(Memo memo) {
     memoRepository.save(memo);
   }
@@ -43,10 +52,9 @@ public class MemoServiceImpl implements MemoService {
   @Override
   public void done(Long id) {
     Optional<Memo> memo = memoRepository.findById(id);
-    memo.ifPresentOrElse(m -> m.setDone(true),
-        () -> {
-          log.info("memo id:{} not found", id);
-        });
+    memo.ifPresentOrElse(m -> m.setDone(true), () -> {
+      log.info("memo id:{} not found", id);
+    });
   }
 
   @Transactional(timeout = 10)
