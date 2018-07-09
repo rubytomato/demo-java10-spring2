@@ -62,6 +62,19 @@ curl -v "http://localhost:9000/app/memo/list"
 curl -v "http://localhost:9000/app/memo/list?page=0&size=5"
 ```
 
+**example**
+
+```text
+> curl "http://localhost:9000/app/memo/2"
+{
+  "id" : 2,
+  "title" : "memo job",
+  "description" : "memo2 description",
+  "done" : false,
+  "updated" : "2018-01-04T13:02:10"
+}
+```
+
 #### post
 
 ```text
